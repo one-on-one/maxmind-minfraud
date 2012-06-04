@@ -23,4 +23,4 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
-grails.plugins.maxmind.minfraud.licenseKey = 'LICENSE_KEY_GOES_HERE'
+maxmind.minfraud.licenseKey = 'LICENSE_KEY_GOES_HERE'

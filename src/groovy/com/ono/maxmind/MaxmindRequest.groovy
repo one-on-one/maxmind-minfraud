@@ -1,13 +1,13 @@
 package com.ono.maxmind
 
 import org.codehaus.groovy.grails.plugins.codecs.MD5Codec
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 /**
  * Created by Eric Berry (cavneb@gmail.com)
  */
 
 class MaxmindRequest {
-    def grailsApplication
 
     // Required Fields
     String licenseKey
@@ -39,7 +39,9 @@ class MaxmindRequest {
     String acceptLanguage
 
     def MaxmindRequest(Map attrs = [:]) {
-        this.licenseKey = grailsApplication.config?.grails?.plugins?.maxmind?.minfraud?.licenseKey
+        if(ConfigurationHolder.config.maxmind?.minfraud?.licenseKey){
+            this.licenseKey = ConfigurationHolder.config.maxmind.minfraud.licenseKey
+        }
         attrs.each { k, v ->
             this."${k}" = v
         }
@@ -56,6 +58,13 @@ class MaxmindRequest {
         ApiConsumerResponse response = ApiConsumer.getText('https://minfraud1.maxmind.com', '/app/ccv2r', query)
         println response.inspect()
         return response
+    }
+
+    def MaxmindResponse getResponse() {
+        def query = generateQuery()
+        def response = get(query)
+        def maxmindResponse = new MaxmindResponse(response)
+        return maxmindResponse
     }
 
     protected Map<String, String> generateQuery() {

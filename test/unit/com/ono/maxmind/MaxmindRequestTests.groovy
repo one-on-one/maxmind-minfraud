@@ -35,6 +35,26 @@ class MaxmindRequestTests extends GroovyTestCase {
         assert response.responseContentType == 'Content-Type: text/plain'
     }
 
+    void testGetResponse() {
+        def maxmindRequest = new MaxmindRequest('licenseKey', [
+                clientIp: '127.0.0.1', city: 'Las Vegas', region: 'NV', postalCode: '89147', country: 'US',
+                domain: 'foo', forwardedIp: '127.0.0.2', shippingCountry: 'US', email: 'cavneb@gmail.com'
+        ])
+        MaxmindResponse maxmindResponse = maxmindRequest.getResponse()
+        println maxmindResponse.inspect()
+        assert maxmindResponse.error == 'INVALID_LICENSE_KEY'
+    }
+
+    void testGetResponseWithLicenseKeyFromConfig() {
+        def maxmindRequest = new MaxmindRequest([
+                clientIp: '127.0.0.1', city: 'Las Vegas', region: 'NV', postalCode: '89147', country: 'US',
+                domain: 'foo', forwardedIp: '127.0.0.2', shippingCountry: 'US', email: 'cavneb@gmail.com'
+        ])
+        MaxmindResponse maxmindResponse = maxmindRequest.getResponse()
+        println maxmindResponse.inspect()
+        assert maxmindResponse.error == 'INVALID_LICENSE_KEY'
+    }
+
     void testGenerateQuery() {
         def maxmindRequest = new MaxmindRequest('licenseKey', [
                 clientIp: '127.0.0.1', city: 'Las Vegas', region: 'NV', postalCode: '89147', country: 'US',
