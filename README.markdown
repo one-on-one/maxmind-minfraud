@@ -6,6 +6,16 @@ Interfaces with Maxmind's minFraud anti-fraud service.
 Installation
 ------------
   grails install-plugin maxmind-minfraud
+  
+License Key
+-----------
+
+Each request to the Maxmind minFraud service requires a valid License Key. This key can be attained by going to 
+[https://www.maxmind.com/app/my_license_key](https://www.maxmind.com/app/my_license_key).
+
+When you get your key you can add to the Config.groovy:
+
+maxmind.minfraud.licenseKey = 'LICENSE_KEY_GOES_HERE'
 
 Usage
 -----
@@ -13,22 +23,21 @@ Usage
 ### Minimum Required ###
 These are the only required fields to acquire a response from Maxmind.
   
-    def request = new MaxmindRequest(
-        licenseKey: 'LICENSE_KEY',
+    def maxmindRequest = new MaxmindRequest(
         clientIp: '24.24.24.24',
         city: 'New York',
         region: 'NY',
         postalCode: '11434',
         country: 'US'
     )
+    def maxmindResponse = request.getResponse()
 
 
 ### Recommended ###
 For increased accuracy, these are the recommended fields to submit to Maxmind. The additional
 fields here are optional and can be all or none.
 
-    def request = new MaxmindRequest(
-        licenseKey: 'LICENSE_KEY',
+    def maxmindRequest = new MaxmindRequest(
         client_ip: '24.24.24.24',
         city: 'New York',
         region: 'NY',
@@ -41,11 +50,11 @@ fields here are optional and can be all or none.
         username: 'test_carder_username',
         password: 'test_carder_password'
     )
+    def maxmindResponse = request.getResponse()
 
 ### Thorough ###
 
-    def request = new MaxmindRequest(
-        licenseKey: 'LICENSE_KEY',
+    def maxmindRequest = new MaxmindRequest(
         client_ip: '24.24.24.24',
         city: 'New York',
         region: 'NY',
@@ -71,9 +80,7 @@ fields here are optional and can be all or none.
         user_agent: 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_5; en-us) AppleWebKit/525.18 (KHTML, like Gecko) Version/3.1.2 Safari/525.20.1',
         accept_language: 'en-us')
     )
-
-Also see examples/example.rb
-
+    def maxmindResponse = request.getResponse()
 
 Reference
 ---------
